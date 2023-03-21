@@ -1,5 +1,8 @@
 from flask import Flask, render_template
 
+from db import setup_db_connection
+from db.models import create_tables
+
 app = Flask(__name__)
 
 
@@ -14,4 +17,6 @@ def page_not_found(_):
 
 
 if __name__ == "__main__":
+    setup_db_connection(app)
+    create_tables()
     app.run(host="localhost", port=80)
