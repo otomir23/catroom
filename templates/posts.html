@@ -7,27 +7,30 @@
     {% endif %}
 {% endblock %}
 
-{% macro renderPost(post) -%}
-    <figure>
+{% macro renderPost(post, is_root) -%}
+    <figure class="flex {% if is_root %}flex-col{% endif %} p-4 rounded-xl bg-pink-100 gap-4">
         {% if post.image %}
             <a href="{{ url_for('view_post', post_id=post.id) }}">
-                <img src="{{ url_for('uploaded_file', filename=post.image) }}" height="256" />
+                <img src="{{ url_for('uploaded_file', filename=post.image) }}" class="rounded {% if is_root %}h-96{% else %}h-32{% endif %}" />
             </a>
         {% endif %}
-        <figcaption>
+        <figcaption class="flex flex-col">
+            <p>
+                {% if post.anonymous %}
+                    <span class="italic font-black">anon</span>
+                {% else %}
+                    <span class="font-black">{{ post.author.username }}</span>
+                {% endif %}
+                <span class="text-neutral-600">@ {{ post.get_formatted_date() }}</span>
+                <span class="text-pink-600 underline underline-offset-2">{{ post.id }}</span>
+            </p>
             {% if post.parent %}
-                <a href="{{ url_for('view_post', post_id=post.parent.id) }}">
+                <a class="text-pink-600 underline underline-offset-2" href="{{ url_for('view_post', post_id=post.parent.id) }}">
                     >> {{ post.parent.id }}
                 </a>
             {% endif %}
-            <p>{{ post.content }}</p>
-            <p>{{ post.id }} @ {{ post.created_at }}</p>
-            {% if post.anonymous %}
-                <p>anonymous</p>
-            {% else %}
-                <p>{{ post.author.username }}</p>
-            {% endif %}
-            <a href="{{ url_for('view_post', post_id=post.id) }}">
+            <p class="text-xl text-neutral-800">{{ post.content }}</p>
+            <a href="{{ url_for('view_post', post_id=post.id) }}" class="link">
                 replies ({{ post.comments.count() }})
             </a>
         </figcaption>
@@ -36,20 +39,39 @@
 
 {% block body %}
     {% if post %}
-        {{ renderPost(post) }}
+        <div class="mb-8">
+            {{ renderPost(post, True) }}
+        </div>
+        <h2 class="text-2xl font-bold italic mb-4">comments</h2>
     {% endif %}
-    {% for post in posts %}
-        {{ renderPost(post) }}
-    {% endfor %}
+    <div class="flex flex-col gap-4">
+        {% for post in posts %}
+            {{ renderPost(post) }}
+        {% else %}
+            <p class="text-lg text-neutral-600">no posts yet</p>
+        {% endfor %}
+    </div>
     {% if user %}
-        <form method="post" enctype="multipart/form-data">
-            <textarea name="content" placeholder="what's on your mind?"></textarea>
-            <input type="file" accept=".jpg,.jpeg,.png" name="image">
-            <label>
-                <input type="checkbox" name="anonymous" value="true">
-                anonymous
+        <form method="post" enctype="multipart/form-data" class="flex flex-col mt-8 max-w-lg gap-2 p-4 bg-white rounded">
+            <textarea
+                    name="content"
+                    placeholder="wanna meow something?"
+                    class="field resize-none"
+            ></textarea>
+            <label class="upload">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6 text-pink-900">
+                    <p class="font-bold text-lg">click to add an image!</p>
+                    <p class="text-sm">(.jpg, .jpeg, .png; optional)</p>
+                </div>
+                <input type="file" accept=".jpg,.jpeg,.png" name="image" class="hidden">
             </label>
-            <input type="submit" value="post">
+            <label class="text-pink-600 w-full bg-pink-50 rounded py-2 px-4 flex items-center gap-2">
+                <input type="checkbox" name="anonymous" value="true">
+                <span>anonymous</span>
+            </label>
+            <button type="submit" class="btn">
+                post
+            </button>
         </form>
     {% endif %}
 {% endblock %}

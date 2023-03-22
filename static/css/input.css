@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply px-4 py-2 rounded-md bg-pink-900 text-pink-50 focus:outline-none focus:ring-2 focus:ring-pink-100 flex justify-center items-center font-bold;
+    }
+
+    .field {
+        @apply px-4 py-2 rounded bg-white border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-100 placeholder-pink-400;
+    }
+
+    .upload {
+        @apply flex flex-col items-center justify-center w-full h-24 border border-pink-200 border-dashed rounded-lg cursor-pointer;
+    }
+
+    .link {
+        @apply text-neutral-600 hover:text-neutral-800 transition-colors;
+    }
+}
+
+* {
+    font-family: 'Inter', ui-serif, system-ui;
+}

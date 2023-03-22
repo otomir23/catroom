@@ -5,24 +5,28 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}page{% endblock %} @ catroom</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     {% endblock %}
 </head>
-<body>
+<body class="bg-pink-50">
     {% block header %}
-        <header>
-            <a href={{ url_for('index') }}>
-                <h1>catroom</h1>
+        <div class="bg-pink-900 h-1 w-full"></div>
+        <header class="flex flex-row w-full justify-between items-center py-4 md:px-16 px-8">
+            <a class="font-black text-2xl text-pink-900" href={{ url_for('index') }}>
+                catroom
             </a>
-            <aside>
+            <aside class="flex gap-2">
                 {% if user %}
-                    <p>Logged in as {{ user.username }}</p>
-                    <a href={{ url_for('logout') }}>Logout</a>
+                    <p>{{ user.username }}</p>
+                    <a class="link" href={{ url_for('logout') }}>logout</a>
                 {% else %}
-                    <a href={{ url_for('login') }}>Login / Register</a>
+                    <a class="link" href={{ url_for('login') }}>login / register</a>
                 {% endif %}
             </aside>
         </header>
     {% endblock %}
-    {% block body %}{% endblock %}
+    <main class="md:px-16 px-8 py-8">
+        {% block body %}h{% endblock %}
+    </main>
 </body>
 </html>

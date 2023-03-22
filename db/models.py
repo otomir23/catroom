@@ -42,6 +42,10 @@ class Post(BaseModel):
     parent = ForeignKeyField('self', null=True, backref='comments')
     created_at = DateTimeField(default=datetime.datetime.now)
 
+    def get_formatted_date(self):
+        """Returns a formatted date string for the post."""
+        return self.created_at.strftime('%d.%m.%Y %H:%M')
+
 
 def create_tables():
     """Creates all tables in the database."""
