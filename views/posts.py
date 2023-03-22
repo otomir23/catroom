@@ -9,6 +9,8 @@ from main import app
 from sessions import get_current_user
 from upload import allowed_file, UPLOAD_FOLDER
 
+POSTS_PER_PAGE = 10
+
 
 def handle_post(parent: Optional[Post]):
     """Handles post form submission.
@@ -43,8 +45,13 @@ def index():
     user = get_current_user()
     if request.method == 'POST' and user:
         handle_post(None)
-    posts = Post.select().where(Post.parent.is_null()).order_by(Post.created_at.desc())
-    return render_template('posts.html', user=user, posts=posts)
+    page_number = request.args.get('page', 1, type=int)
+    page_count = Post.select().where(Post.parent.is_null()).count() // POSTS_PER_PAGE + 1
+    posts = Post.select()\
+        .where(Post.parent.is_null())\
+        .order_by(Post.created_at.desc())\
+        .paginate(page_number, POSTS_PER_PAGE)
+    return render_template('posts.html', user=user, posts=posts, page=page_number, pages=page_count)
 
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
@@ -55,8 +62,10 @@ def view_post(post_id):
     post = Post.get_or_none(Post.id == post_id)
     if not post:
         abort(404)
-    posts = post.comments.order_by(Post.created_at.desc())
+    page_number = request.args.get('page', 1, type=int)
+    page_count = post.comments.count() // POSTS_PER_PAGE + 1
+    posts = post.comments.order_by(Post.created_at.desc()).paginate(page_number, POSTS_PER_PAGE)
 
     if request.method == 'POST' and user:
         handle_post(post)
-    return render_template('posts.html', user=user, post=post, posts=posts)
+    return render_template('posts.html', user=user, post=post, posts=posts, page=page_number, pages=page_count)

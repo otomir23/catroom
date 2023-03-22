@@ -51,6 +51,18 @@
             <p class="text-lg text-neutral-600">no posts yet</p>
         {% endfor %}
     </div>
+    <div class="flex gap-2">
+        {% if page > 1 %}
+            <a href="?page={{ page - 1 }}" class="link">
+                prev
+            </a>
+        {% endif %}
+        {% if page < pages %}
+            <a href="?page={{ page + 1 }}" class="link">
+                next
+            </a>
+        {% endif %}
+    </div>
     {% if user %}
         <form method="post" enctype="multipart/form-data" class="flex flex-col mt-8 max-w-lg gap-2 p-4 bg-white rounded">
             <textarea
