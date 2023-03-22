@@ -1,5 +1,7 @@
 # Project-specific ignores
 uploads/
+node_modules/
+static/css/tailwind.css
 # End of project-specific ignores
 # Everything below this line is from Python.gitignore
 
