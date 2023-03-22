@@ -1,4 +1,6 @@
-from peewee import Model, CharField, BooleanField, ForeignKeyField
+import datetime
+
+from peewee import Model, CharField, BooleanField, ForeignKeyField, DateTimeField
 
 from db import db, generate_table_name
 from util import verify_password
@@ -19,7 +21,7 @@ class User(BaseModel):
     username = CharField()
     password_hash = CharField()
     password_salt = CharField()
-    is_admin = BooleanField()
+    is_admin = BooleanField(default=False)
 
     def validate_password(self, password):
         """Checks if a password matches the user's password.
@@ -38,6 +40,7 @@ class Post(BaseModel):
     anonymous = BooleanField()
     author = ForeignKeyField(User, backref='posts')
     parent = ForeignKeyField('self', null=True, backref='comments')
+    created_at = DateTimeField(default=datetime.datetime.now)
 
 
 def create_tables():

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}login/register{% endblock %}
+
+{% block body %}
+    <form method="post">
+        <input type="text" name="username" placeholder="username" value="{{ username }}">
+        <input type="password" name="password" placeholder="password" value="{{ password }}">
+        <input type="submit" value="go!">
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    </form>
+{% endblock %}

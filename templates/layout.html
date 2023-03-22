@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} @ catroom</title>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}page{% endblock %} @ catroom</title>
+    {% endblock %}
 </head>
 <body>
+    {% block header %}
+        <header>
+            <a href={{ url_for('index') }}>
+                <h1>catroom</h1>
+            </a>
+            <aside>
+                {% if user %}
+                    <p>Logged in as {{ user.username }}</p>
+                    <a href={{ url_for('logout') }}>Logout</a>
+                {% else %}
+                    <a href={{ url_for('login') }}>Login / Register</a>
+                {% endif %}
+            </aside>
+        </header>
+    {% endblock %}
     {% block body %}{% endblock %}
 </body>
 </html>
