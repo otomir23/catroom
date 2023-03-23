@@ -23,6 +23,20 @@
                 {% endif %}
                 <span class="text-neutral-600">@ {{ post.get_formatted_date() }}</span>
                 <span class="text-pink-600 underline underline-offset-2">{{ post.id }}</span>
+                {% if user.is_admin %}
+                    <a
+                            href="{{ url_for('delete_post', board=board.slug, post_id=post.id) }}"
+                            class="font-black text-red-900 bg-red-300 px-1 py-px text-sm border border-red-400 rounded"
+                    >
+                        delete
+                    </a>
+                    <a
+                        href="{{ url_for('suspend_user', user_id=post.author.id) }}"
+                        class="font-black text-red-900 bg-red-300 px-1 py-px text-sm border border-red-400 rounded"
+                    >
+                        suspend
+                    </a>
+                {% endif %}
             </p>
             {% if post.parent %}
                 <a class="text-pink-600 underline underline-offset-2" href="{{ url_for('view_post', board=board.slug, post_id=post.parent.id) }}">
@@ -63,7 +77,7 @@
             </a>
         {% endif %}
     </div>
-    {% if user %}
+    {% if user and not user.is_suspended() %}
         <form method="post" enctype="multipart/form-data" class="flex flex-col mt-8 max-w-lg gap-2 p-4 bg-white rounded">
             <textarea
                     name="content"

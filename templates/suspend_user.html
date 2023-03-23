@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}suspend user{% endblock %}
+
+{% block body %}
+    <h3 class="text-2xl font-bold italic mb-4">suspend user {{ target.username }}</h3>
+    <form method="post" class="flex gap-2 items-baseline">
+        <input type="number" name="suspension_period" class="field w-32">
+        <span class="bold mr-8">days</span>
+        <button class="btn" type="submit">suspend</button>
+    </form>
+{% endblock %}

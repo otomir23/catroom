@@ -20,7 +20,7 @@ def handle_post(parent: Optional[Post], board: Board):
 
     # Getting current user
     user = get_current_user()
-    if not user:
+    if not user or user.is_suspended():
         return
 
     # Getting form fields

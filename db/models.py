@@ -22,6 +22,7 @@ class User(BaseModel):
     password_hash = CharField()
     password_salt = CharField()
     is_admin = BooleanField(default=False)
+    suspended_until = DateTimeField(null=True)
 
     def validate_password(self, password):
         """Checks if a password matches the user's password.
@@ -30,6 +31,16 @@ class User(BaseModel):
 
         :returns: True if computed hashes match, False if not"""
         return verify_password(password, self.password_hash, self.password_salt)
+
+    def is_suspended(self):
+        """Checks if the user is suspended.
+
+        :returns: True if user is suspended, False if not"""
+        return self.suspended_until and self.suspended_until > datetime.datetime.now()
+
+    def get_formatted_unsuspension_date(self):
+        """Returns a formatted date string for the user's unsuspension date."""
+        return self.suspended_until.strftime('%d.%m.%Y %H:%M')
 
 
 class Board(BaseModel):
