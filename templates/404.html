@@ -3,11 +3,9 @@
 
 {% block body %}
     <div class="flex flex-col items-center gap-4">
-        <a href="https://twitter.com/MarMarsBars/status/1636977722240147456/photo/3" target="_blank">
-            <img src="{{ url_for('static', filename='images/404.jpg') }}" alt="Noel the stinky" class="w-full max-w-xs rounded">
-        </a>
+        <img src="{{ url_for('static', filename='images/404.png') }}" class="w-full max-w-xs rounded">
         <p class="text-xl text-center">
-            hey! sorry kitty, but we couldn't find what you were looking for
+            sorry kitty, but we couldn't find what you were looking for
         </p>
         <a href="{{ url_for('index') }}" class="link text-center">go somewhere nice</a>
     </div>
