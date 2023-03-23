@@ -32,6 +32,13 @@ class User(BaseModel):
         return verify_password(password, self.password_hash, self.password_salt)
 
 
+class Board(BaseModel):
+    """A model that represents a board."""
+
+    name = CharField()
+    slug = CharField()
+
+
 class Post(BaseModel):
     """A model that represents a post. Post always has text and can have an image attached."""
 
@@ -41,6 +48,7 @@ class Post(BaseModel):
     author = ForeignKeyField(User, backref='posts')
     parent = ForeignKeyField('self', null=True, backref='comments')
     created_at = DateTimeField(default=datetime.datetime.now)
+    board = ForeignKeyField(Board, backref='posts')
 
     def get_formatted_date(self):
         """Returns a formatted date string for the post."""
@@ -51,4 +59,4 @@ def create_tables():
     """Creates all tables in the database."""
 
     with db:
-        db.create_tables([User, Post])
+        db.create_tables([User, Board, Post])

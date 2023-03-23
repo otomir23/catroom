@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}
     {% if post %}
-        {{ post.id }}
+        {{ post.id }} from {{ board.name }}
     {% else %}
-        home
+       {{ board.name }}
     {% endif %}
 {% endblock %}
 
 {% macro renderPost(post, is_root) -%}
     <figure class="flex {% if is_root %}flex-col{% endif %} p-4 rounded-xl bg-pink-100 gap-4">
         {% if post.image %}
-            <a href="{{ url_for('view_post', post_id=post.id) }}">
+            <a href="{{ url_for('view_post', board=board.slug, post_id=post.id) }}">
                 <img src="{{ url_for('uploaded_file', filename=post.image) }}" class="rounded {% if is_root %}h-96{% else %}h-32{% endif %}" />
             </a>
         {% endif %}
@@ -25,12 +25,12 @@
                 <span class="text-pink-600 underline underline-offset-2">{{ post.id }}</span>
             </p>
             {% if post.parent %}
-                <a class="text-pink-600 underline underline-offset-2" href="{{ url_for('view_post', post_id=post.parent.id) }}">
+                <a class="text-pink-600 underline underline-offset-2" href="{{ url_for('view_post', board=board.slug, post_id=post.parent.id) }}">
                     >> {{ post.parent.id }}
                 </a>
             {% endif %}
             <p class="text-xl text-neutral-800">{{ post.content }}</p>
-            <a href="{{ url_for('view_post', post_id=post.id) }}" class="link">
+            <a href="{{ url_for('view_post', board=board.slug, post_id=post.id) }}" class="link">
                 replies ({{ post.comments.count() }})
             </a>
         </figcaption>

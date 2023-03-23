@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}
+    home
+{% endblock %}
+{% block body %}
+    <div class="flex flex-col">
+        {% for board in boards %}
+            <a class="link" href={{ url_for('view_board', board=board.slug) }}>
+                {{ board.name }}
+            </a>
+        {% endfor %}
+    </div>
+    {% if user.is_admin %}
+        <h3 class="text-2xl font-bold italic mb-4 mt-8">create new board</h3>
+        <form method="post" class="flex gap-2">
+            <input type="text" name="name" placeholder="name" class="field">
+            <input type="text" name="slug" placeholder="slug" class="field">
+            <button type="submit" class="btn">
+                create board
+            </button>
+        </form>
+    {% endif %}
+{% endblock %}
