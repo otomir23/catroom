@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-from flask import request, render_template, abort
+from flask import request, render_template, abort, redirect, url_for
 from werkzeug.utils import secure_filename
 
 from db.models import Post, Board
@@ -50,6 +50,7 @@ def view_board(board):
     user = get_current_user()
     if request.method == 'POST' and user:
         handle_post(None, board_data)
+        return redirect(url_for('view_board', board=board))
     req = Post.select().join(Board).where((Post.parent.is_null()) & (Post.board.slug == board))
     page_number = request.args.get('page', 1, type=int)
     page_count = req.count() // POSTS_PER_PAGE + 1
@@ -74,4 +75,5 @@ def view_post(board, post_id):
 
     if request.method == 'POST' and user:
         handle_post(post, post.board)
+        return redirect(url_for('view_post', board=board, post_id=post_id))
     return render_template('posts.html', user=user, post=post, posts=posts, page=page_number, pages=page_count, board=board_data)
