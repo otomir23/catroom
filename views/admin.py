@@ -35,3 +35,15 @@ def suspend_user(user_id):
 
     return render_template('suspend_user.html', user=user, target=target)
 
+@app.route('/users/<int:user_id>/ban')
+def ban_user(user_id):
+    """Bans user with given id."""
+    user = get_current_user()
+    if not user or not user.is_admin:
+        abort(404)
+    target = User.get_or_none(User.id == user_id)
+    if not target:
+        abort(404)
+
+    target.delete_instance(recursive=True)
+    return redirect(url_for('index'))
