@@ -31,7 +31,7 @@ def handle_post(parent: Optional[Post], board: Board):
         image = upload_file(request.files['image'])
 
     # If we have all required fields, then we create the post
-    if content:
+    if content or image:
         Post.create(content=content, image=image, anonymous=anonymous, author=user, parent=parent, board=board)
 
 
