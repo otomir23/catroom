@@ -56,10 +56,10 @@ class Post(BaseModel):
     content = CharField()
     image = CharField(null=True)
     anonymous = BooleanField()
-    author = ForeignKeyField(User, backref='posts')
-    parent = ForeignKeyField('self', null=True, backref='comments')
+    author = ForeignKeyField(User, backref='posts', on_delete='CASCADE')
+    parent = ForeignKeyField('self', null=True, backref='comments', on_delete='CASCADE')
     created_at = DateTimeField(default=datetime.datetime.now)
-    board = ForeignKeyField(Board, backref='posts')
+    board = ForeignKeyField(Board, backref='posts', on_delete='CASCADE')
 
     def get_formatted_date(self):
         """Returns a formatted date string for the post."""
