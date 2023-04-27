@@ -25,11 +25,11 @@ class AppConfig(BaseSettings):
 config = AppConfig()
 app.config['SECRET_KEY'] = config.SECRET_KEY.get_secret_value()
 
-# Setup the database connection and create the tables.
+# Set up the database connection and create the tables.
 setup_db_connection(app)
 create_tables()
 
-# Setup the uploads folder.
+# Set up the "uploads" folder.
 setup_app_uploads(app)
 
 # Import the views module, so that the routes are registered.

@@ -25,9 +25,9 @@ def upload_file(file: FileStorage) -> Optional[str]:
 
 
 def setup_app_uploads(app: Flask):
-    """Setup the uploads folder for the app.
+    """Set up the uploads folder for the app.
 
-    :param app: app to setup the uploads folder for"""
+    :param app: app to set up the uploads folder for"""
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
