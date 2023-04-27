@@ -7,7 +7,7 @@ from util import verify_password
 
 
 class BaseModel(Model):
-    """A base model that will use our SQLite database."""
+    """A base model that will use our PostgreSQL database."""
 
     class Meta:
         database = db
