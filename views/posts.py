@@ -76,4 +76,5 @@ def view_post(board, post_id):
     if request.method == 'POST' and user:
         handle_post(post, post.board)
         return redirect(url_for('view_post', board=board, post_id=post_id))
-    return render_template('posts.html', user=user, post=post, posts=posts, page=page_number, pages=page_count, board=board_data)
+    return render_template('posts.html', user=user, post=post, posts=posts, page=page_number, pages=page_count,
+                           board=board_data)

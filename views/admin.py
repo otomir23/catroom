@@ -35,6 +35,7 @@ def suspend_user(user_id):
 
     return render_template('suspend_user.html', user=user, target=target)
 
+
 @app.route('/users/<int:user_id>/ban')
 def ban_user(user_id):
     """Bans user with given id."""
