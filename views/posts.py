@@ -1,13 +1,11 @@
-import os
 from typing import Optional
 
 from flask import request, render_template, abort, redirect, url_for
-from werkzeug.utils import secure_filename
 
 from db.models import Post, Board
 from main import app
 from sessions import get_current_user
-from upload import allowed_file, UPLOAD_FOLDER
+from upload import upload_file
 
 POSTS_PER_PAGE = 10
 
@@ -30,9 +28,7 @@ def handle_post(parent: Optional[Post], board: Board):
 
     # Loading image to uploads
     if 'image' in request.files:
-        image = secure_filename(request.files['image'].filename)
-        if image and allowed_file(image):
-            request.files['image'].save(os.path.join(UPLOAD_FOLDER, image))
+        image = upload_file(request.files['image'])
 
     # If we have all required fields, then we create the post
     if content:
