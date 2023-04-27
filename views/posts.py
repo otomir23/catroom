@@ -66,7 +66,7 @@ def view_post(board, post_id):
     board_data = Board.get_or_none(Board.slug == board)
     if not board_data:
         abort(404)
-    post = Post.select().join(Board).where((Post.id == post_id) & (Post.board.slug == board)).get()
+    post = Post.select().join(Board).where((Post.id == post_id) & (Post.board.slug == board)).get_or_none()
     if not post:
         abort(404)
     page_number = request.args.get('page', 1, type=int)
