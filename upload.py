@@ -11,7 +11,7 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
 
 
 def upload_file(file: FileStorage) -> Optional[str]:
-    """Validates extensions and saves file under a new name
+    """Validates file and saves it under a new name
 
     :param file: file to upload
     :return: new filename
@@ -31,6 +31,7 @@ def setup_app_uploads(app: Flask):
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 megabytes
 
     @app.route('/uploads/<filename>')
     def uploaded_file(filename):
